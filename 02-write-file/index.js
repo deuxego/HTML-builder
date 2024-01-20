@@ -2,20 +2,50 @@ const fs = require('fs');
 const path = require('path');
 const PATH = path.resolve(__dirname, 'input.txt');
 
-const readline = require('readline').createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+class FileWritter {
+  constructor() {
+    this.readline = require('readline').createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
 
-const writeFile = (data) => {
-  const writeStream = fs.createWriteStream(PATH);
-  writeStream.write(data);
-};
+    this.createStream = fs.createWriteStream(PATH);
+    this.createStream.end();
+    this.logInput();
+    this.eventListener();
+  }
 
-const createStream = fs.createWriteStream(PATH);
-createStream.end();
+  logInput = () => {
+    this.readline.question('Hey, input your "input" \n', async (input) => {
+      const data = await this.readFile();
+      const mergeData = data + input;
+      this.writeFile(mergeData);
+      this.logInput();
+    });
+  };
 
-readline.question('Hey, input your "input" \n', (input) => {
-  writeFile(input);
-  readline.close();
-});
+  writeFile = (data) => {
+    this.writeStream = fs.createWriteStream(PATH);
+    this.writeStream.write(data);
+  };
+
+  readFile = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        fs.readFile(PATH, 'utf8', (err, data) => {
+          resolve(data);
+        });
+      } catch {
+        throw new Error(reject);
+      }
+    });
+  };
+
+  eventListener() {
+    process.addListener('exit', () => {
+      console.log('Good look!)');
+    });
+  }
+}
+
+new FileWritter();
