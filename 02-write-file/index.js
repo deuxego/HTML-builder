@@ -35,8 +35,8 @@ class FileWritter {
         fs.readFile(PATH, 'utf8', (err, data) => {
           resolve(data);
         });
-      } catch {
-        throw new Error(reject);
+      } catch (e) {
+        reject(new Error(e));
       }
     });
   };
