@@ -17,6 +17,9 @@ class FileWritter {
 
   logInput = () => {
     this.readline.question('Hey, input your "input" \n', async (input) => {
+      if (input === 'exit') {
+        process.exit();
+      }
       const data = await this.readFile();
       const mergeData = data + input;
       this.writeFile(mergeData);

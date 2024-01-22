@@ -23,25 +23,25 @@ class CopyFiles {
             if (err) {
               console.log(err);
             } else {
-              fs.mkdir(this.copyPath, (err) => console.log(err));
+              fs.mkdir(this.copyPath, (err) => err);
               this.copy();
             }
           });
         }
       })
       .catch(() => {
-        fs.mkdir(this.copyPath, (err) => console.log(err));
+        fs.mkdir(this.copyPath, (err) => err);
         this.copy();
       });
   }
 
   async copy() {
-    const files = await readdir(this.sourcePath, (err) => console.log(err));
+    const files = await readdir(this.sourcePath, (err) => err);
     for (const file of files) {
       fs.copyFile(
         this.sourcePath + `/${file}`,
         this.copyPath + `/${file}`,
-        (err) => console.log(err),
+        (err) => err,
       );
     }
   }
