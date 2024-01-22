@@ -9,10 +9,8 @@ class CopyFiles {
     this.exist = new Promise((res, rej) => {
       fs.access(this.copyPath, function (error) {
         if (error) {
-          console.log('Directory does not exist.');
           rej(false);
         } else {
-          console.log('Directory exists.');
           res(true);
         }
       });
