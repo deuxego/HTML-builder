@@ -7,7 +7,6 @@ const styleFilePath = path.resolve(__dirname, 'project-dist', 'style.css');
 const assetsPath = path.resolve(__dirname, 'assets');
 const componentsPath = path.resolve(__dirname, 'components');
 
-// The main question is how do I do this? Ok started
 class Bundler {
   constructor() {
     fs.mkdir(distPath, (e) => e);
