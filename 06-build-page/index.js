@@ -80,7 +80,3 @@ class Bundler {
 }
 
 new Bundler();
-
-//* created dist dir ✅
-//* component inject ✅❗️
-//* style merge ✅
