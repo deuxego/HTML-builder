@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { readdir } = require('fs/promises');
 const path = require('path');
 const htmlPath = path.resolve(__dirname, 'template.html');
 const distPath = path.resolve(__dirname, 'project-dist');
@@ -11,10 +12,10 @@ class Bundler {
   constructor() {
     fs.mkdir(distPath, (e) => e);
 
+    this.createAssetsFolders();
     this.htmlParser();
     this.mergeStyles();
-    this.createAssetsFolders();
-    this.copy();
+    setTimeout(() => this.copy(), 1000);
   }
 
   htmlParser() {
@@ -49,20 +50,18 @@ class Bundler {
     });
   }
 
-  copy() {
-    fs.readdir(assetsPath, (err, files) => {
-      for (const dir of files) {
-        fs.readdir(assetsPath + `/${dir}`, (err, dirFiles) => {
-          for (const file of dirFiles) {
-            fs.copyFile(
-              assetsPath + `/${dir}` + `/${file}`,
-              distPath + '/assets' + `/${dir}` + `/${file}`,
-              (err) => err,
-            );
-          }
-        });
+  async copy() {
+    const directory = await readdir(assetsPath, (err) => err);
+    for (const dir of directory) {
+      const dirFiles = await readdir(path.resolve(assetsPath, dir));
+      for (const file of dirFiles) {
+        fs.copyFile(
+          path.resolve(assetsPath, dir, file),
+          path.resolve(distPath, 'assets', dir, file),
+          (err) => err,
+        );
       }
-    });
+    }
   }
 
   createAssetsFolders() {
