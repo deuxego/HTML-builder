@@ -27,7 +27,7 @@ class LogStats {
       });
 
       if (!file.isDirectory()) {
-        console.log(`${name} - ${ext.slice(1)} - ${await size}kb`);
+        console.log(`${name} - ${ext.slice(1)} - ${(await size) * 0.001}kb`);
       }
     }
   }
